@@ -91,13 +91,15 @@ public:
 		temp.getVersh();
 		return temp;
 	}
-	graph operator + (edge& a) {
-		Graph[a.From()-'a'].push_back(a.To()-'a');
-		Graph[a.To()-'a'].push_back(a.From()-'a');
-		getVersh();
-		return *this;
+	graph operator + (edge a) {
+		graph Temp;
+		Temp = *this;
+		Temp.Graph[a.From()-'a'].push_back(a.To()-'a');
+		Temp.Graph[a.To()-'a'].push_back(a.From()-'a');
+		Temp.getVersh();
+		return Temp;
 	}
-	graph& operator = (const graph &a) {
+	graph operator = (const graph &a) {
 		Graph = a.Graph;
 		V = a.V;
 		return *this;
@@ -152,24 +154,29 @@ int main()
 		cin >> E[i];
 
 	graph G;
+	
 
 	//Сортируем по весу
 	BubbleSort(E);
+
+	int t = 0;
 	vector<edge> T;
 	//Подбираем ребра
-	for (int i = 0; i < E.size(); i++) {
+	for (edge i : E) {
 		vector<bool> temp(26, 0);
-		graph tG = G + E[i];
-		if (!HaveCycle(tG, E[0].From()-'a', -1, temp)) {
-			G = tG;
-			T.push_back(E[i]);
+		graph tG = G + i;
+		//cout << ++t << endl << endl << G << endl;
+		if (!HaveCycle(tG, i.From()-'a', -1, temp)) {
+			G = G+i;
+			T.push_back(i);
 		}
 	}
 	cout << "Minimalnoe ostavnoe derevo" << endl;
 
 	//Вывод ребер
-	/*for (int i = 0; i < T.size(); i++)
-		cout << T[i] << endl;*/
+	for (edge i : T)
+		cout << i << endl;
+	cout << endl;
 
 	//Вывод списка смежности
 	cout << G;
