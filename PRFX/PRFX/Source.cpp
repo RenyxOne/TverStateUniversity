@@ -34,10 +34,8 @@ int main()
     for (int i = G.size() - 1; i >= 0; i -= 1)
     {
         if (G[i].son != 0) {
-            int j;
-            for (j = i; G[j].son == 0 && j >= 0; j = j - 1);
-            int fK = G[j].son; int l = j + 1;
-            while (G[j].son) { if (!G[l].isUsed() && l < G.size()) { G[j].addSon(G[l]); } l++; }
+            int l = i + 1;
+            while (G[i].son) { if (!G[l].isUsed() && l < G.size()) { G[i].addSon(G[l]); } l++; }
         }
     }
     for (versh i : G)
