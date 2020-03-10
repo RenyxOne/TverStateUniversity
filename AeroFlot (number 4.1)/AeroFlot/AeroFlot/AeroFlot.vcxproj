@@ -143,6 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AEROFLOT.h" />
+    <ClInclude Include="MyArr.h" />
+    <ClInclude Include="Sort.h" />
+    <ClInclude Include="sortComp.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="text.txt" />
