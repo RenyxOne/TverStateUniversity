@@ -22,6 +22,7 @@ public:
 	~MyArr();
 
 	int getSize();
+	T* getArr();
 
 	MyArr<T>& operator = (const MyArr<T>& a);
 	MyArr<T> operator + (const MyArr<T>& a);
@@ -57,6 +58,12 @@ template<class T>
 inline int MyArr<T>::getSize()
 {
 	return n;
+}
+
+template<class T>
+inline T* MyArr<T>::getArr()
+{
+	return arr;
 }
 
 template<class T>

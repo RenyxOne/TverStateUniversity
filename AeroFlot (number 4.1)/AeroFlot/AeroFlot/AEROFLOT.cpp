@@ -2,7 +2,9 @@
 
 AEROFLOT::AEROFLOT()
 {
-	Num = NULL;
+	Destination = "";
+	Num = 0;
+	Type = "";
 }
 
 AEROFLOT::AEROFLOT(string d, int n, string t)
@@ -20,7 +22,7 @@ AEROFLOT::AEROFLOT(const AEROFLOT& a)
 AEROFLOT::~AEROFLOT()
 {
 	Destination.clear();
-	Num = NULL;
+	Num = 0;
 	Type.clear();
 }
 
@@ -97,6 +99,18 @@ istream& operator >>(istream& is, AEROFLOT& a)
  bool AEROFLOT::compDestinationBool(AEROFLOT& a, AEROFLOT& b)
  {
 	 return a.getDestinanion().compare(b.getDestinanion())>0;
+ }
+ void AEROFLOT::writeBin(fstream& file)
+ {
+	 file.write((char*)this, sizeof(*this));
+ }
+ void AEROFLOT::readBin(fstream& file)
+ {
+	 file.read((char*)this, sizeof(*this));
+ }
+ int AEROFLOT::getKey()
+ {
+	 return Num;
  }
  int AEROFLOT::complex(const void* a, const void* b)
  {

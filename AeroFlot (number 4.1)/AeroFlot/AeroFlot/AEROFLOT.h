@@ -26,6 +26,9 @@ public:
 	static int compDestination(const void* a, const void* b);
 	static int compType(const void* a, const void* b);
 	static bool compDestinationBool (AEROFLOT& a, AEROFLOT& b);
+	void writeBin(fstream& file);
+	void readBin(fstream& file);
+	int getKey();
 
 	static int complex(const void* a, const void* b);
 
