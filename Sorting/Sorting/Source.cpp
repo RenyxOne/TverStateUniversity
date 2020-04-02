@@ -5,6 +5,12 @@
 #include "MyArr.h"
 using namespace std;
 
+int comp(const void* a, const void* b) {
+	int A = *((int*)a);
+	int B = *((int*)b);
+	return A - B;
+}
+
 
 int main() {
 	fstream in("text.txt", ios::in);
@@ -40,13 +46,23 @@ int main() {
 
 	Cpy = A;
 
-	cout << "Hoar sort\n";
+	/*cout << "Hoar sort\n";
 	Cpy.hoar_mysort(AEROFLOT::compDestination);
-	cout << Cpy << endl;
+	cout << Cpy << endl;*/
 
 	Cpy = A;
 
 	cout << "Qsort\n";
 	Cpy.sortQsort(AEROFLOT::complex);
 	cout << Cpy << endl;
+
+	MyArr<int> i(5);
+	
+	i[0] = 1;
+	i[1] = 3;
+	i[2] = 2;
+	i[3] = 2;
+	i[4] = 5;
+	i.hoar_mysort(comp);
+	cout << i;
 }

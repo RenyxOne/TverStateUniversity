@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <fstream>
 #include "Sort.h"
 #include "sortComp.h"
@@ -24,6 +25,9 @@ public:
 
 	int getSize();
 	T* getArr();
+	void push_back(T a) {
+		
+	}
 
 	MyArr<T>& operator = (const MyArr<T>& a);
 	MyArr<T> operator + (const MyArr<T>& a);
@@ -64,21 +68,27 @@ template<class T>
 inline void MyArr<T>::hoar(T* arr, int right, int(*comp)(const void* a, const void* b), int left, bool start)
 {
 	if (start) right -= 1;
-	int mid = (left + right) / 2;
+	T mid = arr[(left + right) / 2];
 	int l = left; int r = right;
-	while (l < r) {
-		while (arr[l] < arr[mid]) l++;
-		while (arr[r] > arr[mid]) r--;
-		if (l < r) {
-			T help = arr[l];
-			arr[l] = arr[r];
-			arr[r] = help;
+	do{
+		while (comp(&arr[l], &mid) < 0) 
+			l++;
+		while (comp(&arr[r], &mid) > 0) 
+			r--;
+		if (l <= r) {
+			if (l < r) {
+				T help = arr[l];
+				arr[l] = arr[r];
+				arr[r] = help;
+			}
+			l++;
+			r--;
 		}
-	}
-	if (left < l)
-		hoar(arr, l, comp, left, false);
-	if (right < r)
-		hoar(arr, right, comp, r, false);
+	} while (l <= r);
+	if (l < right)
+		hoar(arr, right, comp, l, false);
+	if (left < r)
+		hoar(arr, r, comp, left, false);
 }
 
 template<class T>
