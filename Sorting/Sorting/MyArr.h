@@ -9,6 +9,7 @@ class MyArr
 private:
 	T* arr; int n;
 	void copy(T* a, int n);
+	void hoar(T* arr, int right, int(*comp)(const void* a, const void* b), int left = 0, bool start = true);
 public:
 	MyArr();
 	MyArr(T* a, int n);
@@ -28,11 +29,11 @@ public:
 	MyArr<T> operator + (const MyArr<T>& a);
 	T& operator [] (int k);
 	void sortQsort(int(*comp)(const void *, const void *));
-	void sort(bool(*comp)(T&, T&));
-	void insert_mysort(bool(*comp)(T&, T&));
-	void select_mysort(bool(*comp)(T&, T&));
-	void shell_mysort(bool(*comp)(T&, T&));
-	void hoar_mysort(bool(*comp)(T&, T&));
+	void insert_mysort(bool(*comp)(const void* a, const void* b));
+	void select_mysort(bool(*comp)(const void* a, const void* b));
+	void shell_mysort(bool(*comp)(const void* a, const void* b));
+	void hoar_mysort(int(*comp)(const void* a, const void* b));
+	void bubble_mysort(bool(*comp)(const void* a, const void* b));
 
 	//T operator[] (int k) { return arr[k]; }
 	friend ostream& operator << (ostream& os, MyArr<T>& a)
@@ -57,6 +58,27 @@ inline void MyArr<T>::copy(T* a, int n)
 	for (int i = 0; i < n; i++)
 		arr[i] = a[i];
 	this->n = n;
+}
+
+template<class T>
+inline void MyArr<T>::hoar(T* arr, int right, int(*comp)(const void* a, const void* b), int left, bool start)
+{
+	if (start) right -= 1;
+	int mid = (left + right) / 2;
+	int l = left; int r = right;
+	while (l < r) {
+		while (arr[l] < arr[mid]) l++;
+		while (arr[r] > arr[mid]) r--;
+		if (l < r) {
+			T help = arr[l];
+			arr[l] = arr[r];
+			arr[r] = help;
+		}
+	}
+	if (left < l)
+		hoar(arr, l, comp, left, false);
+	if (right < r)
+		hoar(arr, right, comp, r, false);
 }
 
 template<class T>
@@ -110,6 +132,7 @@ template<class T>
 inline MyArr<T>& MyArr<T>::operator=(const MyArr<T> &a)
 {
 	if (arr) delete[] arr;
+	n = a.n;
 	arr = new T[n];
 	copy(a.arr, a.n);
 	return *this;
@@ -143,7 +166,64 @@ inline void MyArr<T>::sortQsort(int (*comp)(const void *, const void *))
 }
 
 template<class T>
-inline void MyArr<T>::sort(bool(*comp)(T&, T&))
+inline void MyArr<T>::bubble_mysort(bool(*comp)(const void* a, const void* b))
 {
-	BubbleSort1(arr, n, comp);
+	bool flag = true;
+	while (flag) {
+		flag = false;
+		for (int i = 0; i < n - 1; i++) {
+			if (comp(&arr[i], &arr[i + 1])) {
+				flag = true;
+				T help = arr[i];
+				arr[i] = arr[i + 1];
+				arr[i + 1] = help;
+			}
+		}
+	}
 }
+
+template<class T>
+inline void MyArr<T>::insert_mysort(bool(*comp)(const void* a, const void* b))
+{
+	for (int i = 1; i < n; i++) {
+		T help = arr[i];
+		int j = i - 1;
+		while (j >= 0 && comp(&arr[j], &help)) {
+			arr[j + 1] = arr[j];
+			j--;
+		}
+		arr[j + 1] = help;
+	}
+}
+
+template<class T>
+inline void MyArr<T>::select_mysort(bool(*comp)(const void* a, const void* b))
+{
+	for (int i = 0; i < n; i++) {
+		int min = i;
+		for (int j = i + 1; j < n; j++)
+			if (comp(&arr[min], &arr[j])) min = j;
+		T help = arr[i];
+		arr[i] = arr[min];
+		arr[min] = help;
+	}
+}
+
+template<class T>
+inline void MyArr<T>::shell_mysort(bool(*comp)(const void* a, const void *b))
+{
+	for (int step = n / 2; step > 0; step /= 2)
+		for (int now = step; now < n; now++)
+			for (int s = now - step; s >= 0 && comp(&arr[s], &arr[s + step]); s -= step) {
+				T help = arr[s];
+				arr[s] = arr[s + step];
+				arr[s + step] = help;
+			}
+}
+
+template<class T>
+inline void MyArr<T>::hoar_mysort(int(*comp)(const void* a, const void* b))
+{
+	hoar(arr, n, comp);
+}
+

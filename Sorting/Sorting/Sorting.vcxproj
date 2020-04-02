@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{335263DD-69AB-4895-80F1-86F3FDD9DDAB}</ProjectGuid>
-    <RootNamespace>AeroFlot</RootNamespace>
+    <ProjectGuid>{71E09056-8C94-454D-9A5D-09717A4DD634}</ProjectGuid>
+    <RootNamespace>Sorting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AEROFLOT.cpp" />
+    <ClCompile Include="MyArr.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,9 +148,6 @@
     <ClInclude Include="Sort.h" />
     <ClInclude Include="sortComp.h" />
     <ClInclude Include="sorting.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

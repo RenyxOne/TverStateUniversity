@@ -18,6 +18,7 @@ public:
 	void setDestinanion(const string& a);
 	string getDestinanion();
 	string getType();
+	int getNum();
 	bool operator > (const AEROFLOT& a);
 	bool operator < (const AEROFLOT& a);
 	bool operator == (const AEROFLOT& a);
@@ -26,11 +27,14 @@ public:
 	static int compDestination(const void* a, const void* b);
 	static int compType(const void* a, const void* b);
 
-	static bool compDestinationUp (AEROFLOT& a, AEROFLOT& b);
-	static bool compDestinationDown(AEROFLOT& a, AEROFLOT& b);
+	static bool compDestinationUp (const void* a, const void* b);
+	static bool compDestinationDown(const void* a, const void* b);
 
-	static bool compNumUp(AEROFLOT& a, AEROFLOT& b);
-	static bool compNumDown(AEROFLOT& a, AEROFLOT& b);
+	static bool compNumUp(const void* a, const void* b);
+	static bool compNumDown(const void* a, const void* b);
+
+	static bool compTypeUp(const void* a, const void* b);
+	static bool compTypeDown(const void* a, const void* b);
 
 	void writeBin(fstream& file);
 	void readBin(fstream& file);

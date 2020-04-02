@@ -49,6 +49,11 @@ string AEROFLOT::getType()
 	return Type;
 }
 
+int AEROFLOT::getNum()
+{
+	return Num;
+}
+
 
 bool AEROFLOT::operator>(const AEROFLOT& a)
 {
@@ -96,21 +101,41 @@ istream& operator >>(istream& is, AEROFLOT& a)
 	 AEROFLOT* B = ((AEROFLOT*)b);
 	 return A->getType().compare(B->getType());
  }
- bool AEROFLOT::compDestinationUp(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compDestinationUp(const void* a, const void* b)
  {
-	 return a.getDestinanion().compare(b.getDestinanion())>0;
+	AEROFLOT A = *((AEROFLOT*)a);
+	AEROFLOT B = *((AEROFLOT*)b);
+	return A.getDestinanion().compare(B.getDestinanion())>0;
  }
- bool AEROFLOT::compDestinationDown(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compDestinationDown(const void* a, const void* b)
  {
-	 return a.getDestinanion().compare(b.getDestinanion()) < 0;
+	 AEROFLOT A = *((AEROFLOT*)a);
+	 AEROFLOT B = *((AEROFLOT*)b);
+	 return A.getDestinanion().compare(B.getDestinanion()) < 0;
  }
- bool AEROFLOT::compNumUp(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compNumUp(const void* a, const void* b)
  {
-	 return a > b;
+	 AEROFLOT A = *((AEROFLOT*)a);
+	 AEROFLOT B = *((AEROFLOT*)b);
+	 return A > B;
  }
- bool AEROFLOT::compNumDown(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compNumDown(const void* a, const void* b)
  {
-	 return a < b;
+	 AEROFLOT A = *((AEROFLOT*)a);
+	 AEROFLOT B = *((AEROFLOT*)b);
+	 return A < B;
+ }
+ bool AEROFLOT::compTypeUp(const void* a, const void* b)
+ {
+	 AEROFLOT* A = ((AEROFLOT*)a);
+	 AEROFLOT* B = ((AEROFLOT*)b);
+	 return (A->getType().compare(B->getType()))>0;
+ }
+ bool AEROFLOT::compTypeDown(const void* a, const void* b)
+ {
+	 AEROFLOT* A = ((AEROFLOT*)a);
+	 AEROFLOT* B = ((AEROFLOT*)b);
+	 return (A->getType().compare(B->getType())) < 0;
  }
  void AEROFLOT::writeBin(fstream& file)
  {

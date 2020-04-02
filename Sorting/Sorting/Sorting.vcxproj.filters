@@ -21,8 +21,14 @@
     <ClCompile Include="AEROFLOT.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="MyArr.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="sorting.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
     <ClInclude Include="AEROFLOT.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -35,11 +41,5 @@
     <ClInclude Include="sortComp.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="sorting.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="text.txt" />
   </ItemGroup>
 </Project>
