@@ -43,7 +43,7 @@ public:
 	void push_back(T a);
 	void push_front(T a);
 	void insert(T a, int pos);
-	void insert_at_sort(T a, bool(*comp)(const T& a, const T& b));
+	void insert_at_sort(T a);
 
 	//Поиск
 	int search(T a);
@@ -57,10 +57,10 @@ public:
 	int get_size();
 
 	//Var 3
-	void place_max_to_start_min_to_end(bool(*comp)(const T& a, const T& b));
+	void place_max_to_start_min_to_end();
 
 	//insertions sort
-	void insertion_sort(bool(*comp)(const T& a, const T& b));
+	void insert_sort();
 	void insert_node_at_pos(node<T>* key, int pos);
 	
 
@@ -126,14 +126,14 @@ inline void List<T>::insert(T a, int pos)
 }
 
 template<class T>
-inline void List<T>::insert_at_sort(T a, bool(*comp)(const T& a, const T& b))
+inline void List<T>::insert_at_sort(T a)
 {
 	node<T>* cur = new node<T>(NULL, this->head);
 	int pos = 0;
-	while (cur->next->next) {
-		if (comp(cur->next->info, cur->next->next->info)) { cout << "\nList not sorted\n"; return; }
-		if (comp(a,cur->next->info)) pos++;
-		cur = cur->next;
+	while (cur->next != nullptr) {
+		if (cur->next->info > cur->next->info) { cout << "\nList not sorted\n"; return; }
+		if (cur->next->info < a) pos++;
+		*cur = *(cur->next);
 	}
 	insert(a, pos);
 }
@@ -159,7 +159,7 @@ inline int List<T>::get_size()
 }
 
 template<class T>
-inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const T& b))
+inline void List<T>::place_max_to_start_min_to_end()
 {
 	if (this->size <= 1) return;
 
@@ -167,7 +167,7 @@ inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const
 	T value_max;
 	node<T>* help;
 
-	if (comp(this->head->next->info,this->head->info)) {
+	if (this->head->info < this->head->next->info) {
 		value_min = this->head->info;
 		value_max = this->head->next->info;
 	}
@@ -179,14 +179,14 @@ inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const
 	//insert max
 	node<T>* cur = this->head;
 	while (cur) {
-		if (comp(value_min,cur->info)) value_min = cur->info;
-		else if (comp(cur->info, value_max)) value_max = cur->info;
+		if (cur->info < value_min) value_min = cur->info;
+		else if (cur->info > value_max) value_max = cur->info;
 		cur = cur->next;
 	}
 
 	int pos = 0;
 	cur = this->head;
-	while (!(cur->info == value_max)) {
+	while (cur->info != value_max) {
 		cur = cur->next;
 		pos++;
 	}
@@ -200,7 +200,7 @@ inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const
 	//insert min
 	cur = this->head;
 	pos = 0;
-	while (!(cur->info == value_min)) {
+	while (cur->info != value_min) {
 		cur = cur->next;
 		pos++;
 	}
@@ -211,11 +211,11 @@ inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const
 	while (cur->next != nullptr) cur = cur->next;
 	help->next = nullptr;
 	cur->next = help;
-	this->size++;
+	size++;
 }
 
 template<class T>
-inline void List<T>::insertion_sort(bool(*comp)(const T& a, const T& b))
+inline void List<T>::insert_sort()
 {
 	if (this->size < 2) return;
 
@@ -223,7 +223,7 @@ inline void List<T>::insertion_sort(bool(*comp)(const T& a, const T& b))
 		node<T>* key = get_node(i);
 		del_at_pos(i);
 		int j = i - 1;
-		while (j >= 0 && comp((*this)[j], key->info))
+		while (j >= 0 && (*this)[j] > key->info)
 			j = j - 1;
 		insert_node_at_pos(key, j + 1);
 	}
