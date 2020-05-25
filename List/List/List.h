@@ -43,7 +43,7 @@ public:
 	void push_back(T a);
 	void push_front(T a);
 	void insert(T a, int pos);
-	void insert_at_sort(T a, bool(*comp)(const T& a, const T& b));
+	void insert_at_sort(T a, bool(*comp)(T& a, T& b));
 
 	//Поиск
 	int search(T a);
@@ -57,10 +57,10 @@ public:
 	int get_size();
 
 	//Var 3
-	void place_max_to_start_min_to_end(bool(*comp)(const T& a, const T& b));
+	void place_max_to_start_min_to_end(bool(*comp)(T& a, T& b));
 
 	//insertions sort
-	void insertion_sort(bool(*comp)(const T& a, const T& b));
+	void insertion_sort(bool(*comp)(T& a, T& b));
 	void insert_node_at_pos(node<T>* key, int pos);
 	
 
@@ -69,12 +69,17 @@ public:
 	friend ostream& operator<<(ostream& os, const List<T>& a){
 		node<T>* cur = a.head;
 		while (cur) {
-			os << cur->info << ' ';
+			os << cur->info << '\n';
 			cur = cur->next;
 		}
 		return os;
 	}
-
+	friend istream& operator>>(istream& is, List<T>& a) {
+		T help;
+		is >> help;
+		a.push_back(help);
+		return is;
+	}
 	
 };
 
@@ -126,16 +131,17 @@ inline void List<T>::insert(T a, int pos)
 }
 
 template<class T>
-inline void List<T>::insert_at_sort(T a, bool(*comp)(const T& a, const T& b))
+inline void List<T>::insert_at_sort(T a, bool(*comp)(T& a, T& b))
 {
-	node<T>* cur = new node<T>(NULL, this->head);
+	node<T>* cur = new node<T>(T(), this->head);
 	int pos = 0;
 	while (cur->next->next) {
 		if (comp(cur->next->info, cur->next->next->info)) { cout << "\nList not sorted\n"; return; }
 		if (comp(a,cur->next->info)) pos++;
 		cur = cur->next;
 	}
-	insert(a, pos);
+	if (pos == this->size - 1 && comp(a, cur->info)) push_back(a);
+	else insert(a, pos);
 }
 
 template<class T>
@@ -159,7 +165,7 @@ inline int List<T>::get_size()
 }
 
 template<class T>
-inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const T& b))
+inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(T& a, T& b))
 {
 	if (this->size <= 1) return;
 
@@ -215,7 +221,7 @@ inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(const T& a, const
 }
 
 template<class T>
-inline void List<T>::insertion_sort(bool(*comp)(const T& a, const T& b))
+inline void List<T>::insertion_sort(bool(*comp)(T& a, T& b))
 {
 	if (this->size < 2) return;
 
@@ -252,15 +258,7 @@ inline void List<T>::insert_node_at_pos(node<T>* key, int pos)
 
 template<class T>
 inline T& List<T>::operator[](const int index) {
-	int n = 0;
-	node<T>* cur = this->head;
-	while (cur != nullptr) {
-		if (n == index) {
-			return cur->info;
-		}
-		cur = cur->next;
-		n++;
-	}
+	return get_node(index)->info;
 }
 
 template<class T>
@@ -276,15 +274,15 @@ template<class T>
 inline int List<T>::del(T del, node<T>* pos)
 {
 	int deleted = 0;
-	node<T>* cur = this->head;
-
-	if (pos) cur = pos;
-
-	if (this->head->info == del && !pos) {
+	while (this->head->info == del && !pos) {
 		this->head = this->head->next;
 		size--;
 		deleted++;
 	}
+
+	node<T>* cur = this->head;
+
+	if (pos) cur = pos;
 	while (cur->next != nullptr)
 	{
 		if (cur->next->info == del){

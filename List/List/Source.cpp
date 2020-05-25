@@ -1,11 +1,12 @@
 #include <iostream>
+#include "AEROFLOT.h"
 #include "List.h"
 
 bool intcomp(const int& a, const int& b) {
 	return a > b;
 }
 int main() {
-	List<int> a;
+	/*List<int> a;
 	for (int i = 0; i < 6; i++) {
 		a.push_back(rand()%10);
 	}
@@ -29,5 +30,34 @@ int main() {
 	a.del(55);
 	cout << "delete 55\n" << a << "\nsize: " << a.get_size() << endl << endl;
 	a.insertion_sort(intcomp);
-	cout << "after sort\n" << a << "\nsize: " << a.get_size() << endl << endl;
+	cout << "after sort\n" << a << "\nsize: " << a.get_size() << endl << endl;*/
+
+	fstream aeroflot_text("text.txt", ios::in);
+	List<AEROFLOT> aeroList;
+
+	int list_size = 0;
+	aeroflot_text >> list_size;
+	for (int i = 0; i < list_size; i++) {
+		aeroflot_text >> aeroList;
+	}
+
+	AEROFLOT help("Moskow", 55, "Boening");
+	cout << "Original list\n" << aeroList << "Size: " << aeroList.get_size() <<endl << endl;
+	aeroList.insertion_sort(AEROFLOT::compNumUp);
+	cout << "Sorted list\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+	aeroList.insert_at_sort(help, AEROFLOT::compNumUp);
+	aeroList.insert_at_sort(help, AEROFLOT::compNumUp);
+	aeroList.insert_at_sort(help, AEROFLOT::compNumUp);
+	cout << "insert 3 time's\n" << help << "\nat sorted list\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+	aeroList.DeDupe();
+	cout << "delete duplcates\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+	aeroList.place_max_to_start_min_to_end(AEROFLOT::compNumUp);
+	cout << "place max to start min to end\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+	aeroList.push_back(help);
+	cout << "push back\n" << help << "\n\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl; 
+	aeroList.push_front(help);
+	cout << "push front\n" << help << "\n\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+	aeroList.del(help);
+	cout << "delete \n" << help << endl << endl << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+
 }

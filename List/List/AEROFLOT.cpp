@@ -100,15 +100,15 @@ istream& operator >>(istream& is, AEROFLOT& a)
  {
 	 return a.getDestinanion().compare(b.getDestinanion())>0;
  }
- bool AEROFLOT::compDestinationDown(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compDestinationDown(AEROFLOT& a,AEROFLOT& b)
  {
 	 return a.getDestinanion().compare(b.getDestinanion()) < 0;
  }
- bool AEROFLOT::compNumUp(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compNumUp(AEROFLOT& a,AEROFLOT& b)
  {
 	 return a > b;
  }
- bool AEROFLOT::compNumDown(AEROFLOT& a, AEROFLOT& b)
+ bool AEROFLOT::compNumDown(AEROFLOT& a,AEROFLOT& b)
  {
 	 return a < b;
  }

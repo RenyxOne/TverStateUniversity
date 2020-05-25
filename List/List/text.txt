@@ -1,0 +1,21 @@
+11
+Paris	6	Airbus-A340
+Krym	7	Airbus-A380
+Uhan	8	Airbus-A330
+Harkov	1	Airbus-A310
+Tver	11	SSJ100	
+Moscow	2	Airbus-A310
+NewYork	3	Boening-737
+Berlin	4	IL-16	
+Tokyo	5	Boening-777
+Paris	15	Airbus-A340
+Krym	7	Boening-737
+										 
+										
+										
+										
+										
+										
+										
+										
+										
