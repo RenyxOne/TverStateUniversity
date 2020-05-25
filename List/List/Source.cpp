@@ -53,6 +53,7 @@ int main() {
 	cout << "delete duplcates\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
 	aeroList.place_max_to_start_min_to_end(AEROFLOT::compNumUp);
 	cout << "place max to start min to end\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
+	cout << "search\n" << help << "in " << aeroList.search(help) << " pos\n";
 	aeroList.push_back(help);
 	cout << "push back\n" << help << "\n\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl; 
 	aeroList.push_front(help);
