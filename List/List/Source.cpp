@@ -2,13 +2,10 @@
 #include "AEROFLOT.h"
 #include "List.h"
 
-bool intcomp(const int& a, const int& b) {
-	return a > b;
-}
 int main() {
 	/*List<int> a;
 	for (int i = 0; i < 6; i++) {
-		a.push_back(rand()%10);
+		a.push_back(rand()%10+3);
 	}
 	cout << "original list:\n" << a << "\nsize: " << a.get_size() << endl << endl;
 	a.insert_at_sort(4, intcomp);
@@ -60,5 +57,4 @@ int main() {
 	cout << "push front\n" << help << "\n\n" << aeroList << "Size: " << aeroList.get_size() << endl << endl;
 	aeroList.del(help);
 	cout << "delete \n" << help << endl << endl << aeroList << "Size: " << aeroList.get_size() << endl << endl;
-
 }

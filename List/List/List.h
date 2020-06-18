@@ -34,7 +34,21 @@ public:
 		head = nullptr;
 	}
 
-	~List<T>() {}
+	List<T>(const List& a) {
+		node<T>* cur = a.head;
+		while (cur) {
+			this->push_back(cur->info);
+			cur = cur->next;
+		}
+	}
+
+	~List<T>() {
+		while (this -> head) {
+			node<T>* toDel = this -> head;
+			this->del_at_pos(0);
+			delete toDel;
+		}
+	}
 
 	//check list for empty
 	bool isEmpty();
