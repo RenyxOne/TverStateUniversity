@@ -43,9 +43,10 @@ public:
 	}
 
 	~List<T>() {
+		this->size = 0;
 		while (this -> head) {
 			node<T>* toDel = this -> head;
-			this->del_at_pos(0);
+			this->head = this->head->next;
 			delete toDel;
 		}
 	}
@@ -64,18 +65,12 @@ public:
 
 	//delete elements
 	int del(T del, node<T>* pos = nullptr);
-	void del_at_pos(int pos);
-	void DeDupe();
 
 	//size
 	int get_size();
 
-	//Var 3
-	void place_max_to_start_min_to_end(bool(*comp)(T& a, T& b));
-
 	//insertions sort
 	void insertion_sort(bool(*comp)(T& a, T& b));
-	void insert_node_at_pos(node<T>* key, int pos);
 	
 
 	T& operator[](const int index);
@@ -179,109 +174,35 @@ inline int List<T>::get_size()
 }
 
 template<class T>
-inline void List<T>::place_max_to_start_min_to_end(bool(*comp)(T& a, T& b))
-{
-	if (this->size <= 1) return;
-
-	T value_min;
-	T value_max;
-	node<T>* help;
-
-	if (comp(this->head->next->info,this->head->info)) {
-		value_min = this->head->info;
-		value_max = this->head->next->info;
-	}
-	else {
-		value_min = this->head->next->info;
-		value_max = this->head->info;
-	}
-
-	//insert max
-	node<T>* cur = this->head;
-	while (cur) {
-		if (comp(value_min,cur->info)) value_min = cur->info;
-		else if (comp(cur->info, value_max)) value_max = cur->info;
-		cur = cur->next;
-	}
-
-	int pos = 0;
-	cur = this->head;
-	while (!(cur->info == value_max)) {
-		cur = cur->next;
-		pos++;
-	}
-
-	help = cur;
-	this->del_at_pos(pos);
-	help->next = this->head;
-	this->head = help;
-	this->size++;
-
-	//insert min
-	cur = this->head;
-	pos = 0;
-	while (!(cur->info == value_min)) {
-		cur = cur->next;
-		pos++;
-	}
-
-	help = cur;
-	this->del_at_pos(pos);
-
-	while (cur->next != nullptr) cur = cur->next;
-	help->next = nullptr;
-	cur->next = help;
-	this->size++;
-}
-
-template<class T>
 inline void List<T>::insertion_sort(bool(*comp)(T& a, T& b))
 {
 	if (this->size < 2) return;
 
-	for (int i = 1; i < this->size; i++) {
-		node<T>* key = get_node(i);
-		del_at_pos(i);
-		int j = i - 1;
-		while (j >= 0 && comp((*this)[j], key->info))
-			j = j - 1;
-		insert_node_at_pos(key, j + 1);
-	}
-}
+	node<T>* ptr = this->head->next;
+	node<T>* prev_ptr = this->head;
 
-template<class T>
-inline void List<T>::insert_node_at_pos(node<T>* key, int pos)
-{
-	if (pos == 0) {
-		key->next = this->head;
-		this->head = key;
-		this->size++;
-		return;
+	while (ptr) {
+		node<T>* temp;
+		node<T>* prev_temp;
+		for (temp = this->head, prev_temp = nullptr; temp != ptr && comp(temp->info, ptr->info); prev_temp = temp, temp = temp->next);
+		if (temp == ptr) {
+			prev_ptr = ptr;
+			ptr = ptr->next;
+		}
+		else {
+			prev_ptr->next = ptr->next;
+			if (prev_temp) prev_temp->next = ptr;
+			else this->head = ptr;
+			ptr->next = temp;
+			ptr = prev_ptr->next;
+		}
 	}
-	key->next = nullptr;
-	int i = 0;
-	node<T>* cur = this->head;
-	while (cur->next != nullptr && i < pos - 1) {
-		cur = cur->next;
-		i++;
-	}
-	if (i < this->size) key->next = cur->next;
-	cur->next = key;
-	size++;
+
 }
 
 template<class T>
 inline T& List<T>::operator[](const int index) {
 	return get_node(index)->info;
-}
-
-template<class T>
-inline void List<T>::DeDupe()
-{
-	node<T>* cur = this->head;
-	while (cur)
-		if (!del(cur->info, cur))
-			cur = cur->next;
 }
 
 template<class T>
@@ -307,25 +228,4 @@ inline int List<T>::del(T del, node<T>* pos)
 		else cur = cur->next;
 	}
 	return deleted;
-}
-
-template<class T>
-inline void List<T>::del_at_pos(int pos)
-{
-	if (pos >= size || pos < 0) return;
-
-	if (pos == 0){ 
-		this->head = this->head->next;
-		this->size--;
-		return;
-	}
-
-	int now_pos = 0;
-	node<T>* cur = this->head;
-	while (now_pos < pos - 1) {
-		cur = cur->next;
-		now_pos++;
-	}
-	cur->next = cur->next->next;
-	this->size--;
 }
